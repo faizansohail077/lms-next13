@@ -7,6 +7,7 @@ import { redirect } from 'next/navigation'
 import React from 'react'
 import { boolean } from 'zod'
 import ChapterTitleFrom from './_components/ChapterTitleFrom'
+import ChapterDescriptionFrom from './_components/ChapterDescriptionFrom'
 
 const Chapter = async ({ params }: { params: { courseId: string, chapterId: string } }) => {
 
@@ -61,6 +62,7 @@ const Chapter = async ({ params }: { params: { courseId: string, chapterId: stri
                         </div>
                         {/* todo  */}
                         <ChapterTitleFrom initialData={chapter} chapterId={params.chapterId} courseId={params.courseId} />
+                        <ChapterDescriptionFrom initialData={chapter} chapterId={params.chapterId} courseId={params.courseId} />
                     </div>
                 </div>
             </div>

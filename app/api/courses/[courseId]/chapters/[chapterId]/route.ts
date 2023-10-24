@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function PATCH(req: NextRequest, { params }: { params: { courseId: string, chapterId: string } }) {
     try {
-        const values = await req.json()
+        const { isPublished, ...values } = await req.json()
         const { userId } = auth()
         if (!userId) return NextResponse.json({ msg: "Unauthorized" }, { status: 401 })
         const chapter = await db.chapter.update({
@@ -14,6 +14,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { courseId: 
             },
             data: { ...values }
         })
+        // TODO handle video upload
         return NextResponse.json({ msg: "Chapter Updated", chapter })
     } catch (error) {
         console.log(error, 'error patch')
