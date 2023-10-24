@@ -13,6 +13,8 @@ import toast from 'react-hot-toast'
 import { useRouter } from 'next/navigation'
 import { Chapter } from '@prisma/client'
 import { cn } from '@/lib/utils'
+import Editor from '@/components/Editor'
+import Preview from '@/components/Preview'
 
 interface ChapterDescriptionFromProps {
     initialData: Chapter
@@ -62,9 +64,10 @@ const ChapterDescriptionFrom = ({ courseId, initialData, chapterId }: ChapterDes
                     }
                 </Button>
             </div>
-            {!isEditing && <p className={cn("text-sm mt-2", !initialData.descirption && "text-slate-500 italic")} >
-                {initialData.descirption ? initialData.descirption : "No Description"}
-            </p>}
+            {!isEditing && <div className={cn("text-sm mt-2", !initialData.descirption && "text-slate-500 italic")} >
+                {!initialData.descirption && "No Description"}
+                {initialData.descirption && <Preview value={initialData.descirption} />}
+            </div>}
 
             {isEditing && <Form  {...form}>
                 <form className='space-y-4 mt-4' action="" onSubmit={form.handleSubmit(onSubmit)}>
@@ -72,8 +75,7 @@ const ChapterDescriptionFrom = ({ courseId, initialData, chapterId }: ChapterDes
                         return (
                             <FormItem>
                                 <FormControl>
-
-                                    <Input disabled={isSubmitting} {...field} placeholder='e.g "Introduction To Course"' />
+                                    <Editor {...field} />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>

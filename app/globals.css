@@ -78,3 +78,6 @@ body,html,:root {
     @apply bg-background text-foreground;
   }
 }
+.ql-container {
+  font-size: 16px !important;
+}
