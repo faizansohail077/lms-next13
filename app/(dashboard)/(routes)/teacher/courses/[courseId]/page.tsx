@@ -24,7 +24,7 @@ const CourseDetail = async ({ params: { courseId } }: { params: { courseId: stri
         include: {
             chapters: {
                 orderBy: {
-                    createdAt: "asc"
+                    position: "asc"
                 }
             },
             attachments: {

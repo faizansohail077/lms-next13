@@ -8,40 +8,37 @@ import * as z from 'zod'
 import { Form, FormControl, FormMessage, FormItem, FormField } from "@/components/ui/form";
 import { Button } from '@/components/ui/button'
 import { Pencil } from 'lucide-react'
+import { Input } from '@/components/ui/input'
 import toast from 'react-hot-toast'
 import { useRouter } from 'next/navigation'
-import { Textarea } from '@/components/ui/textarea'
-import { cn } from '@/lib/utils'
-import { Course } from '@prisma/client'
-import { ComboBox } from '@/components/ui/combobox'
 
-interface CategoryFormProps {
-    initialData: Course;
-    courseId: string;
-    options: { label: string, value: string }[]
+interface ChapterTitleFromProps {
+    initialData: {
+        title: string,
+    }
+    courseId: string,
+    chapterId: string
 }
 
 const formSchema = z.object({
-    categoryId: z.string().min(1, {
-        message: "Category is Required"
+    title: z.string().min(1, {
+        message: "Title is Required"
     })
 })
-const CategoryForm = ({ courseId, initialData, options }: CategoryFormProps) => {
+const ChapterTitleFrom = ({ courseId, initialData, chapterId }: ChapterTitleFromProps) => {
     const [isEditing, setIsEditing] = useState(false)
     const router = useRouter()
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
-        defaultValues: {
-            categoryId: initialData.categoryId || ""
-        }
+        defaultValues: initialData
     })
 
     const { isValid, isSubmitting } = form.formState
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
-            await axios.patch(`/api/courses/${courseId}`, values)
-            toast.success("Course Edited")
+            await axios.patch(`/api/courses/${courseId}/chapters/${chapterId}`, values)
+            toast.success("Chapter Edited")
             toggleEddit()
             router.refresh()
         } catch (error) {
@@ -52,31 +49,30 @@ const CategoryForm = ({ courseId, initialData, options }: CategoryFormProps) => 
     const toggleEddit = () => {
         setIsEditing((current) => !current)
     }
-    const selectedOption = options.find(option => option.value === initialData.categoryId)
     return (
         <div className='mt-6 bg-slate-100 rounded-md p-4' >
             <div className="font-medium flex items-center justify-between">
-                Course Category
+                Chapter Title
                 <Button onClick={toggleEddit} variant={"ghost"} >
                     {isEditing && (<>Cancel</>)}
                     {!isEditing && <>
                         <Pencil className='h-4 w-4 mr-2' />
-                        Edit Category
+                        Edit Title
                     </>
                     }
                 </Button>
             </div>
-            {!isEditing && <p className={cn("text-sm mt-2", !initialData.categoryId && "text-slate-500 italic")} >
-                {initialData.categoryId ? selectedOption?.label : "No Category"}
+            {!isEditing && <p className='text-sm mt-2' >
+                {initialData.title}
             </p>}
 
             {isEditing && <Form  {...form}>
                 <form className='space-y-4 mt-4' action="" onSubmit={form.handleSubmit(onSubmit)}>
-                    <FormField control={form.control} name='categoryId' render={({ field }) => {
+                    <FormField control={form.control} name='title' render={({ field }) => {
                         return (
                             <FormItem>
                                 <FormControl>
-                                    <ComboBox options={options} {...field} />
+                                    <Input disabled={isSubmitting} {...field} placeholder='e.g "Introduction To Course"' />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -94,4 +90,4 @@ const CategoryForm = ({ courseId, initialData, options }: CategoryFormProps) => 
     )
 }
 
-export default CategoryForm
+export default ChapterTitleFrom

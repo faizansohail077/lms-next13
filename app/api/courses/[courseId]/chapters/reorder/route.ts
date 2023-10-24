@@ -7,7 +7,6 @@ export async function PUT(req: NextRequest, { params }: { params: { courseId: st
         const { courseId } = params
         const { userId } = auth()
         const { list } = await req.json()
-
         if (!userId) return NextResponse.json({ msg: "UnAuthorized" }, { status: 401 })
 
         const courseOwner = db.course.findUnique({

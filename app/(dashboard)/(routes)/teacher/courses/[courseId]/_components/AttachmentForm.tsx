@@ -25,9 +25,8 @@ const AttachmentForm = ({ courseId, initialData }: AttachmentFormProps) => {
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
-            const data = await axios.post(`/api/courses/${courseId}/attachments`, values)
+            await axios.post(`/api/courses/${courseId}/attachments`, values)
             toast.success("Course Edited")
-            console.log(data, 'data')
             toggleEddit()
             router.refresh()
         } catch (error) {

@@ -38,9 +38,8 @@ const DescriptionForm = ({ courseId, initialData }: DescriptionFormProps) => {
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
-            const data = await axios.patch(`/api/courses/${courseId}`, values)
+            await axios.patch(`/api/courses/${courseId}`, values)
             toast.success("Course Edited")
-            console.log(data, 'data')
             toggleEddit()
             router.refresh()
         } catch (error) {
