@@ -15,7 +15,7 @@ import { cn } from '@/lib/utils'
 import { Course } from '@prisma/client'
 import { ComboBox } from '@/components/ui/combobox'
 
-interface DescriptionFormProps {
+interface CategoryFormProps {
     initialData: Course;
     courseId: string;
     options: { label: string, value: string }[]
@@ -26,7 +26,7 @@ const formSchema = z.object({
         message: "Category is Required"
     })
 })
-const CategoryForm = ({ courseId, initialData, options }: DescriptionFormProps) => {
+const CategoryForm = ({ courseId, initialData, options }: CategoryFormProps) => {
     const [isEditing, setIsEditing] = useState(false)
     const router = useRouter()
     const form = useForm<z.infer<typeof formSchema>>({

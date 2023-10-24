@@ -15,7 +15,7 @@ import { Course } from '@prisma/client'
 import { Input } from '@/components/ui/input'
 import { formatPrice } from '@/lib/formats'
 
-interface DescriptionFormProps {
+interface PriceFormProps {
     initialData: Course
     courseId: string
 }
@@ -24,7 +24,7 @@ const formSchema = z.object({
     price: z.coerce.number()
 })
 
-const PriceForm = ({ courseId, initialData }: DescriptionFormProps) => {
+const PriceForm = ({ courseId, initialData }: PriceFormProps) => {
     const [isEditing, setIsEditing] = useState(false)
     const router = useRouter()
     const form = useForm<z.infer<typeof formSchema>>({
