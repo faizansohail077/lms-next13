@@ -7,6 +7,8 @@ import React from 'react'
 import TitleFrom from './_components/TitleFrom'
 import DescriptionForm from './_components/DescriptionForm'
 import ImageForm from './_components/ImageForm'
+import CategoryForm from './_components/CategoryForm'
+
 
 const CourseDetail = async ({ params: { courseId } }: { params: { courseId: string } }) => {
     const { userId } = auth()
@@ -16,6 +18,13 @@ const CourseDetail = async ({ params: { courseId } }: { params: { courseId: stri
             id: courseId
         }
     })
+
+    const categories = await db.category.findMany({
+        orderBy: {
+            name: "asc"
+        }
+    })
+
     if (!course) return redirect('/')
     const requiredFields = [
         course.title,
@@ -47,6 +56,10 @@ const CourseDetail = async ({ params: { courseId } }: { params: { courseId: stri
                     <TitleFrom initialData={course} courseId={course.id} />
                     <DescriptionForm initialData={course} courseId={course.id} />
                     <ImageForm initialData={course} courseId={course.id} />
+                    <CategoryForm options={categories.map((item) => ({
+                        label: item.name,
+                        value: item.id
+                    }))} initialData={course} courseId={course.id} />
                 </div>
             </div>
 
