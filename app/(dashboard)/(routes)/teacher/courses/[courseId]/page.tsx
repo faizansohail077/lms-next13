@@ -6,6 +6,7 @@ import { redirect } from 'next/navigation'
 import React from 'react'
 import TitleFrom from './_components/TitleFrom'
 import DescriptionForm from './_components/DescriptionForm'
+import ImageForm from './_components/ImageForm'
 
 const CourseDetail = async ({ params: { courseId } }: { params: { courseId: string } }) => {
     const { userId } = auth()
@@ -45,6 +46,7 @@ const CourseDetail = async ({ params: { courseId } }: { params: { courseId: stri
                     </div>
                     <TitleFrom initialData={course} courseId={course.id} />
                     <DescriptionForm initialData={course} courseId={course.id} />
+                    <ImageForm initialData={course} courseId={course.id} />
                 </div>
             </div>
 

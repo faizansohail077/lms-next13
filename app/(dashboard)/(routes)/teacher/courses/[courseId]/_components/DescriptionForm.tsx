@@ -12,11 +12,10 @@ import toast from 'react-hot-toast'
 import { useRouter } from 'next/navigation'
 import { Textarea } from '@/components/ui/textarea'
 import { cn } from '@/lib/utils'
+import { Course } from '@prisma/client'
 
 interface DescriptionFormProps {
-    initialData: {
-        description: string,
-    }
+    initialData: Course
     courseId: string
 }
 
@@ -25,12 +24,14 @@ const formSchema = z.object({
         message: "Description is Required"
     })
 })
-const DescriptionForm = ({ courseId, initialData }: any) => {
+const DescriptionForm = ({ courseId, initialData }: DescriptionFormProps) => {
     const [isEditing, setIsEditing] = useState(false)
     const router = useRouter()
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
-        defaultValues: initialData
+        defaultValues: {
+            description: initialData.description || ""
+        }
     })
 
     const { isValid, isSubmitting } = form.formState
