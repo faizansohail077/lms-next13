@@ -12,7 +12,7 @@ const NavbarRoutes = () => {
     const isPlayerPage = pathname.includes('/chapter')
 
     return (
-        <div className='flex gap-x-2 ml-auto  md:w-full' >
+        <div className='flex gap-x-2 justify-end w-full  md:w-[85%]' >
             {isTeacherPage || isPlayerPage ?
                 <Link href={'/'} >
 
