@@ -1,6 +1,7 @@
 "use client"
 import ConfirmModal from '@/components/modals/confirm-modal'
 import { Button } from '@/components/ui/button'
+import { useConfettiStore } from '@/hooks/useConfettiStore'
 import axios from 'axios'
 import { Trash } from 'lucide-react'
 import { redirect, useRouter } from 'next/navigation'
@@ -13,10 +14,10 @@ interface CourseActionsProps {
     isPublished: boolean
 }
 
-const CourseActions = ({  courseId, disabled, isPublished }: CourseActionsProps) => {
+const CourseActions = ({ courseId, disabled, isPublished }: CourseActionsProps) => {
     const [isLoading, setIsLoading] = useState(false)
     const router = useRouter()
-
+    const confetti = useConfettiStore()
     const onClick = async () => {
         try {
             setIsLoading(true)
@@ -26,6 +27,8 @@ const CourseActions = ({  courseId, disabled, isPublished }: CourseActionsProps)
             } else {
                 await axios.patch(`/api/courses/${courseId}/publish`)
                 toast.success("Course Publish")
+                confetti.onOpen()
+
             }
             router.refresh()
 
