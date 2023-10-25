@@ -62,7 +62,7 @@ const ChapterAccessForm = ({ courseId, initialData, chapterId }: ChapterAccessFo
                 </Button>
             </div>
             {!isEditing && <div className={cn("text-sm mt-2", !initialData.isFree && "text-slate-500 italic")} >
-                {!initialData.isFree ? "This Chapter is Free For Preview" : "This Chapter is Not Free"}
+                {!initialData.isFree ? "This Chapter is Not Free" : "This Chapter is Free For Preview"}
             </div>}
 
             {isEditing && <Form  {...form}>

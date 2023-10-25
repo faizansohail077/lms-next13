@@ -9,6 +9,7 @@ import { boolean } from 'zod'
 import ChapterTitleFrom from './_components/ChapterTitleFrom'
 import ChapterDescriptionFrom from './_components/ChapterDescriptionFrom'
 import ChapterAccessForm from './_components/ChapterAccessForm'
+import ChapterVideoForm from './_components/ChapterVideoForm'
 
 const Chapter = async ({ params }: { params: { courseId: string, chapterId: string } }) => {
 
@@ -81,6 +82,7 @@ const Chapter = async ({ params }: { params: { courseId: string, chapterId: stri
                         <IconBadge icon={Video} />
                         <h2 className='text-xl' >Add a video</h2>
                     </div>
+                    <ChapterVideoForm initialData={chapter} chapterId={params.chapterId} courseId={params.courseId} />
                 </div>
             </div>
 
