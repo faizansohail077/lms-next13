@@ -21,7 +21,7 @@ export async function DELETE(req: NextRequest, { params }: { params: { courseId:
 
         })
         if (!chapter) return NextResponse.json({ msg: "Not Found" }, { status: 404 })
-       
+
         if (chapter.videoUrl) {
             const existingMuxData = await db.muxData.findFirst({
                 where: {
@@ -62,7 +62,7 @@ export async function DELETE(req: NextRequest, { params }: { params: { courseId:
             })
         }
         // TODO handle video upload
-        return NextResponse.json({ msg: "Chapter Updated" })
+        return NextResponse.json({ msg: "Chapter Deleted", deletedChapter })
     } catch (error) {
         console.log(error, 'error delete')
         return NextResponse.json({ msg: "Somehing went wront" })

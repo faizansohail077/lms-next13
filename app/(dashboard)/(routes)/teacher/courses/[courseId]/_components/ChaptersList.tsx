@@ -71,7 +71,7 @@ const ChaptersList = ({ items, onEdit, onReorder }: ChaptersListProps) => {
                                                             <Badge>Free</Badge>
                                                         )}
                                                         <Badge className={cn("bg-slate-500", chapter.isPublished && "bg-sky-700")} >
-                                                            {chapter.isPublished ? "isPublished" : "Draft"}
+                                                            {chapter.isPublished ? "Published" : "Draft"}
                                                         </Badge>
 
                                                         <Pencil onClick={() => onEdit(chapter.id)} className='w-4 h-4 cursor-pointer hover:opacity-75 transition' />
