@@ -56,7 +56,7 @@ const Chapter = async ({ params }: { params: { courseId: string, chapterId: stri
                                 <h1 className='text-2xl font-medium' >Chapter Creating</h1>
                                 <span className='text-sm text-slate-500' >Complete all fields {completetionText}</span>
                             </div>
-                            <ChapterActions disabled={isComplete} isPublished={chapter.isPublished} courseId={params.courseId} chapterId={params.chapterId} />
+                            <ChapterActions disabled={!isComplete} isPublished={chapter.isPublished} courseId={params.courseId} chapterId={params.chapterId} />
                         </div>
                     </div>
                 </div>
