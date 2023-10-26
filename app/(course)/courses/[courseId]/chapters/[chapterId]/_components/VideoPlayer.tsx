@@ -1,8 +1,12 @@
 "use client"
+import { useConfettiStore } from '@/hooks/useConfettiStore';
 import { cn } from '@/lib/utils';
 import MuxPlayer from '@mux/mux-player-react';
+import axios from 'axios';
 import { Loader2, Lock } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
+import toast from 'react-hot-toast';
 
 interface VideoPlayerProps {
     chapterId: string;
@@ -16,6 +20,34 @@ interface VideoPlayerProps {
 
 const VideoPlayer = ({ chapterId, completeOnEnd, courseId, isLocked, nextChapterId, playbackId, title }: VideoPlayerProps) => {
     const [isReady, setIsReady] = useState(false)
+
+    const router = useRouter()
+    const confetti = useConfettiStore()
+
+
+    const onEnd = async () => {
+        try {
+            // if (completeOnEnd) {
+                await axios.put(`/api/courses/${courseId}/chapters/${chapterId}/progress`, {
+                    isCompleted: true
+                })
+            // }
+
+
+            if (!nextChapterId) {
+                confetti.onOpen()
+            }
+            if (nextChapterId) {
+                router.push(`/courses/${courseId}/chapters/${nextChapterId}`)
+            }
+
+            toast.success("Progress Updated")
+            router.refresh()
+        } catch (error) {
+            console.log(error, 'error video progress bar')
+            toast.error("Something Went Wrong")
+        }
+    }
 
     return (
         <div className='relative aspect-video' >
@@ -31,7 +63,7 @@ const VideoPlayer = ({ chapterId, completeOnEnd, courseId, isLocked, nextChapter
                 </div>
             )}
             {!isLocked && (
-                <MuxPlayer playbackId={playbackId} title={title} className={cn(!isReady && "hidden")} onCanPlay={() => setIsReady(true)} autoPlay onEnded={() => { }} />
+                <MuxPlayer playbackId={playbackId} title={title} className={cn(!isReady && "hidden")} onCanPlay={() => setIsReady(true)} autoPlay onEnded={onEnd} />
             )}
         </div>
     )

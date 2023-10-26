@@ -8,17 +8,17 @@ import CourseEnrollButton from './_components/CourseEnrollButton'
 import { Separator } from '@/components/ui/separator'
 import Preview from '@/components/Preview'
 import { File } from 'lucide-react'
+import CourseProgressButton from './_components/CourseProgressButton'
 
 const ChapterId = async ({ params }: { params: { courseId: string, chapterId: string } }) => {
     const { chapterId, courseId } = params
     const { userId } = auth()
     if (!userId) return redirect('/')
     const { chapter, course, muxData, nextChapter, purchase, userProgress, attachments } = await getChapters({ chapterId, courseId, userId })
-console.log(attachments,'attachments')
     if (!chapter || !course) return redirect("/")
     const isLocked = !chapter?.isFree && !purchase
     const completeOnEnd = !!purchase && userProgress?.isCompleted
-
+    
 
     return (
         <div>
@@ -36,7 +36,7 @@ console.log(attachments,'attachments')
                     <div className="p-4 flex flex-col md:flex-row items-center justify-between">
                         <h2 className='text-2xl font-semibold mb-2' >Chapter Title</h2>
                         {purchase ? (
-                            <div className=""></div>
+                            <CourseProgressButton courseId={courseId} chapterId={chapterId} nextChapterId={nextChapter?.id!} isCompleted={!!userProgress?.isCompleted} />
                         ) : (
                             <CourseEnrollButton courseId={courseId} price={course?.price!} />
                         )}

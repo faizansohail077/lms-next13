@@ -16,8 +16,6 @@ const CourseSiderBarItem = ({ courseId, id, isCompleted, isLocked, label }: Cour
     const router = useRouter()
     const Icon = isLocked ? Lock : (isCompleted ? CheckCircle : PlayCircle)
     const isActive = pathname.includes(id)
-    console.log(isActive, 'isActive')
-    console.log(pathname, 'patname')
     const onClick = () => {
         router.push(`/courses/${courseId}/chapters/${id}`)
     }
